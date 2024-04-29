@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Heading from "./Heading";
 
 let img = "https://picsum.photos/200";
 const costumStyle = {
@@ -12,6 +13,7 @@ const costumStyle = {
 
 ReactDOM.render(
   <div>
+    <Heading />
     <h1 className="heading">Images </h1>
     {/* Inline styling for react elements */}
     <p style={costumStyle}>This is the image</p>
