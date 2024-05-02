@@ -12,7 +12,12 @@ function App() {
       email={contact.email}
     />
   ));
-  return <div>{contactCard}</div>;
+  return (
+    <div>
+      <h1 className="heading">My Contacts</h1>
+      {contactCard}
+    </div>
+  );
 }
 
 export default App;

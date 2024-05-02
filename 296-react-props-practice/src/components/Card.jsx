@@ -1,19 +1,18 @@
 import React from "react";
-
+import Avatar from "./Avatar";
+import Detail from "./Detail";
 function Card(props) {
   return (
     <div>
-      <div>
-        <h1 className="heading">My Contacts</h1>
-        <div className="card">
-          <div className="top">
-            <h2 className="name">{props.name}</h2>
-            <img className="circle-img" src={props.imgSrc} alt="avatar_img" />
-          </div>
-          <div className="bottom">
-            <p className="info">{props.telp}</p>
-            <p className="info">{props.email}</p>
-          </div>
+      <div className="card">
+        <div className="top">
+          <h2 className="name">{props.name}</h2>
+          <Avatar imgSrc={props.imgSrc} />
+        </div>
+        <div className="bottom">
+          {/* create a new components which has the same className */}
+          <Detail detailInfo={props.telp} />
+          <Detail detailInfo={props.email} />
         </div>
       </div>
     </div>
