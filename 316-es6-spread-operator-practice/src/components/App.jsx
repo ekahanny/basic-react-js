@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ToDoItem from "./ToDoItem";
 
 function App() {
   // utk mengambil value dari kolom input
@@ -16,13 +17,21 @@ function App() {
 
   function handleClick() {
     // menambahkan item baru
-    setItems((prevItems) => {
-      console.log(prevItems);
-      return [...prevItems, inputText];
+    setItems((prevValue) => {
+      return [...prevValue, inputText];
     });
 
     // mengosongkan kolom input jika tombol diklik
     setInputText("");
+  }
+
+  // mencari item pada array yg indexnya !== id dari item yg diklik
+  function deleteItem(id) {
+    setItems((prevItems) => {
+      return prevItems.filter((item, index) => {
+        return index !== id;
+      });
+    });
   }
 
   return (
@@ -44,8 +53,13 @@ function App() {
       <div>
         <ul>
           {/* menampilkan list item yg ditambahkan */}
-          {items.map((todoItem) => (
-            <li>{todoItem}</li>
+          {items.map((todoItem, index) => (
+            <ToDoItem
+              key={index}
+              id={index}
+              text={todoItem}
+              onChecked={deleteItem}
+            />
           ))}
         </ul>
       </div>
