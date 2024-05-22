@@ -8,7 +8,7 @@ function FormRegist() {
       <InputForm
         label="Fullname"
         type="text"
-        placeholder="isert your name here..."
+        placeholder="Insert your name here..."
         name="fullname"
       />
       <InputForm
