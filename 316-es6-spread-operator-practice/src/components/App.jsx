@@ -1,28 +1,16 @@
 import React, { useState } from "react";
 import ToDoItem from "./ToDoItem";
+import InputArea from "./InputArea";
 
 function App() {
-  // utk mengambil value dari kolom input
-  const [inputText, setInputText] = useState("");
-
   // utk menyimpan item yang akan ditambahkan
   const [items, setItems] = useState([]);
 
-  function handleChange(event) {
-    // mengambil value dari input
-    const value = event.target.value;
-    // assign value tsb
-    setInputText(value);
-  }
-
-  function handleClick() {
+  function addItem(inputText) {
     // menambahkan item baru
     setItems((prevValue) => {
       return [...prevValue, inputText];
     });
-
-    // mengosongkan kolom input jika tombol diklik
-    setInputText("");
   }
 
   // mencari item pada array yg indexnya !== id dari item yg diklik
@@ -39,17 +27,7 @@ function App() {
       <div className="heading">
         <h1>To-Do List</h1>
       </div>
-      <div className="form">
-        <input
-          onChange={handleChange}
-          type="text"
-          name="inputText"
-          value={inputText}
-        />
-        <button onClick={handleClick}>
-          <span>Add</span>
-        </button>
-      </div>
+      <InputArea onAdd={addItem} />
       <div>
         <ul>
           {/* menampilkan list item yg ditambahkan */}
