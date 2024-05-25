@@ -1,12 +1,20 @@
 /* eslint-disable react/prop-types */
-// import React from "react";
 
 function Button(props) {
-  const { children = "Submit", color = "bg-black" } = props;
+  const {
+    children = "Submit",
+    color = "bg-black",
+    // nilai default & akan ter-override jika type memiliki value berbeda pada component lain
+    type = "button",
+    // ambil props onClick kosong
+    onClick = () => {},
+  } = props;
   return (
     <button
       className={`h-10 px-6 font-semibold rounded-md ${color} text-white`}
-      type="submit"
+      type={type}
+      // jalankan props onSubmit
+      onClick={() => onClick()}
     >
       {children}
     </button>
