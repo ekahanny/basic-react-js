@@ -6,15 +6,15 @@ function Button(props) {
     color = "bg-black",
     // nilai default & akan ter-override jika type memiliki value berbeda pada component lain
     type = "button",
-    // ambil props onClick kosong
+    // ambil props onClick kosong sebagai default
     onClick = () => {},
   } = props;
   return (
     <button
       className={`h-10 px-6 font-semibold rounded-md ${color} text-white`}
       type={type}
-      // jalankan props onSubmit
-      onClick={() => onClick()}
+      // jalankan props onClick
+      onClick={onClick}
     >
       {children}
     </button>
