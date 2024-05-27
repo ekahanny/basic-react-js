@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import CardProduct from "../components/fragments/CardProduct";
 import Button from "../components/elements/button/Button";
 
@@ -26,7 +26,32 @@ const products = [
 const email = localStorage.getItem("email");
 
 function ProductsPage() {
-  const [cart, setCart] = useState([{}]);
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  // Mengambil data cart dari localstorage
+  // useEffect ini akan dijalankan 1x saat component pertama kali di-mount/dirender
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+  }, []);
+
+  // useEffect ini akan dijalankan setiap kali cart berubah
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce((acc, item) => {
+        const product = products.find((product) => product.id === item.id);
+        if (product) {
+          return acc + product.price * item.qty;
+        }
+        return acc;
+      }, 0);
+      setTotalPrice(sum);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+    /* dependency -> dependency array cart akan memberitahu
+     react bahwa useEffect ini hanya perlu dijalankan ulang
+    jika array cart berubah. */
+  }, [cart]);
 
   const handleLogout = () => {
     localStorage.removeItem("email");
@@ -36,18 +61,15 @@ function ProductsPage() {
 
   const handleAddToCart = (id) => {
     setCart((prevCart) => {
-      // mencocokkan apakah id dari product yg ditambahkan sudah ada didalam prevCart
       const existingItem = prevCart.find((item) => item.id === id);
       console.log("id", id);
       if (existingItem) {
         const updatedCart = prevCart.map((item) =>
-          // jika ada, maka kuantitas akan bertambah
           item.id === id ? { ...item, qty: item.qty + 1 } : item
         );
         console.log("Updated cart: ", updatedCart);
         return updatedCart;
       } else {
-        // jika tidak ada, maka akan ditambahkan id baru pada prevCart dgn kuantitas default 1
         return [
           ...prevCart,
           {
@@ -79,9 +101,6 @@ function ProductsPage() {
               </CardProduct.Body>
               <CardProduct.Footer
                 price={product.price}
-                /* mengirim id dari array products
-                   agar id tsb dpt di passing sebagai
-                   argument pada handleAddToCart */
                 id={product.id}
                 handleAddToCart={handleAddToCart}
               />
@@ -103,7 +122,6 @@ function ProductsPage() {
             </thead>
             <tbody>
               {cart.map((item) => {
-                // item dari state cart, product dari array products
                 console.log("Rendering item: ", item);
                 console.log("cart", cart);
                 const product = products.find(
@@ -131,6 +149,20 @@ function ProductsPage() {
                   </tr>
                 );
               })}
+              <tr>
+                <td colSpan={3}>
+                  <b>Total Price</b>
+                </td>
+                <td>
+                  <b>
+                    Rp.{" "}
+                    {totalPrice.toLocaleString("id-ID", {
+                      styles: "currency",
+                      currency: "IDR",
+                    })}
+                  </b>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
