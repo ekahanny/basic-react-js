@@ -1,7 +1,6 @@
 import Button from "../elements/button/Button";
 
 /* eslint-disable react/prop-types */
-Button;
 function CardProduct(props) {
   const { children } = props;
   return (
@@ -12,10 +11,10 @@ function CardProduct(props) {
 }
 
 function Header(props) {
-  const { imgSrc } = props;
+  const { imgSrc, alt } = props;
   return (
     <a href="">
-      <img src={imgSrc} alt="shoes" className="p-3 rounded-t-lg" />
+      <img src={imgSrc} alt={alt} className="p-3 rounded-t-lg" />
     </a>
   );
 }
