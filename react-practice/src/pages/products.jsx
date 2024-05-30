@@ -85,12 +85,24 @@ function ProductsPage() {
   /* Perbedaan antara useState dan useRef, useState akan
   lgsg merender (memperbaharui) data yang berubah. Sedangkan
   useRef tdk lgsg mengubah tampilannya */
-  const cartRef = useRef(JSON.parse(localStorage.getItem("cart")) || []);
+  // const cartRef = useRef(JSON.parse(localStorage.getItem("cart")) || []);
 
-  const handleAddToCartRef = (id) => {
-    cartRef.current = [...cartRef.current, { id, qty: 1 }];
-    localStorage.setItem("cart", JSON.stringify(cartRef.current));
-  };
+  // const handleAddToCartRef = (id) => {
+  //   cartRef.current = [...cartRef.current, { id, qty: 1 }];
+  //   localStorage.setItem("cart", JSON.stringify(cartRef.current));
+  // };
+
+  // useRef juga dpt bekerja layaknya DOM Manipulation
+  // membuat perkondisian (total price hny akan muncul jika ada data pada cart)
+  const totalPriceRef = useRef(null);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      totalPriceRef.current.style.display = "table-row";
+    } else {
+      totalPriceRef.current.style.display = "none";
+    }
+  }, [cart]);
 
   return (
     <Fragment>
@@ -113,7 +125,7 @@ function ProductsPage() {
               <CardProduct.Footer
                 price={product.price}
                 id={product.id}
-                handleAddToCart={handleAddToCartRef}
+                handleAddToCart={handleAddToCart}
               />
             </CardProduct>
           ))}
@@ -132,7 +144,7 @@ function ProductsPage() {
               </tr>
             </thead>
             <tbody>
-              {cartRef.current.map((item) => {
+              {cart.map((item) => {
                 console.log("Rendering item: ", item);
                 console.log("cart", cart);
                 const product = products.find(
@@ -160,7 +172,7 @@ function ProductsPage() {
                   </tr>
                 );
               })}
-              {/* <tr>
+              <tr ref={totalPriceRef}>
                 <td colSpan={3}>
                   <b>Total Price</b>
                 </td>
@@ -173,7 +185,7 @@ function ProductsPage() {
                     })}
                   </b>
                 </td>
-              </tr> */}
+              </tr>
             </tbody>
           </table>
         </div>
