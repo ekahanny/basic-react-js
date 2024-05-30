@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import CardProduct from "../components/fragments/CardProduct";
 import Button from "../components/elements/button/Button";
 
@@ -81,6 +81,17 @@ function ProductsPage() {
     });
   };
 
+  //useRef
+  /* Perbedaan antara useState dan useRef, useState akan
+  lgsg merender (memperbaharui) data yang berubah. Sedangkan
+  useRef tdk lgsg mengubah tampilannya */
+  const cartRef = useRef(JSON.parse(localStorage.getItem("cart")) || []);
+
+  const handleAddToCartRef = (id) => {
+    cartRef.current = [...cartRef.current, { id, qty: 1 }];
+    localStorage.setItem("cart", JSON.stringify(cartRef.current));
+  };
+
   return (
     <Fragment>
       {/* NAVBAR */}
@@ -102,7 +113,7 @@ function ProductsPage() {
               <CardProduct.Footer
                 price={product.price}
                 id={product.id}
-                handleAddToCart={handleAddToCart}
+                handleAddToCart={handleAddToCartRef}
               />
             </CardProduct>
           ))}
@@ -121,7 +132,7 @@ function ProductsPage() {
               </tr>
             </thead>
             <tbody>
-              {cart.map((item) => {
+              {cartRef.current.map((item) => {
                 console.log("Rendering item: ", item);
                 console.log("cart", cart);
                 const product = products.find(
@@ -149,7 +160,7 @@ function ProductsPage() {
                   </tr>
                 );
               })}
-              <tr>
+              {/* <tr>
                 <td colSpan={3}>
                   <b>Total Price</b>
                 </td>
@@ -162,7 +173,7 @@ function ProductsPage() {
                     })}
                   </b>
                 </td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>
