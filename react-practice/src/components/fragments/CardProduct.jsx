@@ -14,7 +14,11 @@ function Header(props) {
   const { imgSrc, alt } = props;
   return (
     <a href="">
-      <img src={imgSrc} alt={alt} className="p-3 rounded-t-lg" />
+      <img
+        src={imgSrc}
+        alt={alt}
+        className="p-3 rounded-t-lg h-60 w-full object-cover"
+      />
     </a>
   );
 }
@@ -25,9 +29,11 @@ function Body(props) {
     <div className="px-5 pb-5 h-full">
       <a href="">
         <h5 className="text-2xl font-semibold tracking-tight text-white mt-2">
-          {title}
+          {title.substring(0, 20)} ...
         </h5>
-        <p className="text-m text-white mt-3">{children}</p>
+        <p className="text-m text-white mt-3">
+          {children.substring(0, 100)}...
+        </p>
       </a>
     </div>
   );
@@ -38,7 +44,7 @@ function Footer(props) {
   return (
     <div className="flex items-center justify-between px-5 pb-5">
       <span className="text-lg font-bold text-white ">
-        Rp.{" "}
+        ${" "}
         {price.toLocaleString("id-ID", { styles: "currency", currency: "IDR" })}
       </span>
       <Button color="bg-blue-600" onClick={() => handleAddToCart(id)}>
