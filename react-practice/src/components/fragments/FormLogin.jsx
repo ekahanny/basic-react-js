@@ -6,15 +6,14 @@ import { Login } from "../../services/auth.service";
 
 function FormLogin() {
   const [loginFailed, setLoginFailed] = useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // localStorage.setItem("email", email);
-    // localStorage.setItem("password", password);
     const data = {
       username: event.target.username.value,
       password: event.target.password.value,
     };
+
     Login(data, (status, res) => {
       if (status) {
         localStorage.setItem("token", res);

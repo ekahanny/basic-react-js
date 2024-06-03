@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import Button from "../elements/button/Button";
 
-/* eslint-disable react/prop-types */
 function CardProduct(props) {
   const { children } = props;
   return (
     <div className="w-full max-w-sm bg-gray-800 border border-gray-700 rounded-lg shadow mx-3 my-2 flex flex-col justify-between">
+      {/* children diisi dengan Header, Body, dan Footer */}
       {children}
     </div>
   );

@@ -16,6 +16,7 @@ function ProductsPage() {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
   }, []);
 
+  // mengambil username yang tersedia pada hasil decoded token
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -39,6 +40,7 @@ function ProductsPage() {
   }, []);
 
   // useEffect ini akan dijalankan setiap kali cart berubah
+  // mengatur total price & meletakannya pada localStorage
   useEffect(() => {
     if (products.length > 0 && cart.length > 0) {
       const sum = cart.reduce((acc, item) => {
@@ -97,12 +99,21 @@ function ProductsPage() {
   // useRef juga dpt bekerja layaknya DOM Manipulation
   // membuat perkondisian (total price hny akan muncul jika ada data pada cart)
   const totalPriceRef = useRef(null);
-
   useEffect(() => {
     if (cart.length > 0) {
       totalPriceRef.current.style.display = "table-row";
     } else {
       totalPriceRef.current.style.display = "none";
+    }
+  }, [cart]);
+
+  // akan menampilkan cart jika ada isi dari cart tersebut
+  const cartRef = useRef(null);
+  useEffect(() => {
+    if (cart.length > 0) {
+      cartRef.current.style.display = "block";
+    } else {
+      cartRef.current.style.display = "none";
     }
   }, [cart]);
 
@@ -138,7 +149,7 @@ function ProductsPage() {
         </div>
 
         {/* CART */}
-        <div className="w-2/6">
+        <div className="w-2/6" ref={cartRef}>
           <h1 className="text-3xl font-bold text-blue-600 ml-5 mb-2">Cart</h1>
           <table className="text-left table-auto border-separate border-spacing-x-5">
             <thead>
